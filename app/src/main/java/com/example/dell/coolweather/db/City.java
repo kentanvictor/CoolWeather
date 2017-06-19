@@ -6,7 +6,7 @@ import org.litepal.crud.DataSupport;
  * Created by Zoetan on 2017/6/19.
  */
 //cityName記錄城市的名字.cityCode記錄城市的代號.provinceId記錄當前城市所屬省份的id
-public class City extends DataSupport{
+public class City extends DataSupport {
     private int id;
     private String cityName;
     private int cityCode;

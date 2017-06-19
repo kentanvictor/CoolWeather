@@ -7,7 +7,7 @@ import org.litepal.crud.DataSupport;
  */
 //id是每個實體類中都應該有的字段,provinceName記錄省的名字.provinceCode記錄省的代號.
 
-public class province extends DataSupport{
+public class province extends DataSupport {
     private int id;
     private String provinceName;
     private int provinceCode;
@@ -19,8 +19,8 @@ public class province extends DataSupport{
     public void setId(int id) {
         this.id = id;
     }
-    public String getProvinceName()
-    {
+
+    public String getProvinceName() {
         return provinceName;
     }
 
