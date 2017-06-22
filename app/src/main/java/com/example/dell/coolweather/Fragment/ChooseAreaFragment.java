@@ -3,6 +3,7 @@ package com.example.dell.coolweather.Fragment;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dell.coolweather.R;
+import com.example.dell.coolweather.activity.WeatherActivity;
 import com.example.dell.coolweather.db.City;
 import com.example.dell.coolweather.db.County;
 import com.example.dell.coolweather.db.province;
@@ -94,6 +96,13 @@ public class ChooseAreaFragment extends Fragment {
                     queryCites();
                 } else if (currentLevel == LEVEL_CITY) {
                     queryProvinces();
+                }else if(currentLevel == LEVEL_COUNTY)
+                {
+                    String weatherId = countyList.get(position).getWertherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id", weatherId);
+                    startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
