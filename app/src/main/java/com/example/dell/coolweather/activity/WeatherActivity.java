@@ -79,13 +79,13 @@ public class WeatherActivity extends AppCompatActivity {
             /**
              * When you have a cache, you parse the weather data directly
              * */
-        Weather weather = Utility.handleWeatherResponse(weatherString);
+            Weather weather = Utility.handleWeatherResponse(weatherString);
             showWeatherInfo(weather);
         } else {
             /**
              * When no cache is available, go to the server to query data
              * */
-        String weatherId = getIntent().getStringExtra("weather_id");
+            String weatherId = getIntent().getStringExtra("weather_id");
             weatherLayout.setVisibility(View.VISIBLE);
             requestWeather(weatherId);
         }
