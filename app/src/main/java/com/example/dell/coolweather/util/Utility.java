@@ -85,11 +85,11 @@ public class Utility {
         }
         return false;
     }
+
     /**
      * make the returned JSON data to be parsed into the Weather entity class
      **/
-    public static Weather handleWeatherResponse(String response)
-    {
+    public static Weather handleWeatherResponse(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONArray("HeWeather");
