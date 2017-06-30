@@ -61,6 +61,7 @@ public class WeatherActivity extends AppCompatActivity {
     public DrawerLayout drawerLayout;
 
     private Button navButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
