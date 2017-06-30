@@ -109,8 +109,7 @@ public class WeatherActivity extends AppCompatActivity {
             weatherLayout.setVisibility(View.VISIBLE);
             requestWeather(weatherId);
         }
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 requestWeather(weatherId);
