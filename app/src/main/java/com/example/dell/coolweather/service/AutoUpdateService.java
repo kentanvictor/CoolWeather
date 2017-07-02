@@ -29,14 +29,15 @@ public class AutoUpdateService extends Service {
         int anHour = 8 * 60 * 60 * 1000;//This is the number of milliseconds in 8 hours
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AutoUpdateService.class);
-        PendingIntent pi = PendingIntent.getService(this ,0 ,i, 0);
+        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
         manager.cancel(pi);
         manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         return super.onStartCommand(intent, flags, startId);
     }
-/**
- * update bing daily picture
- * */
+
+    /**
+     * update bing daily picture
+     */
     private void updateBingPic() {
         String requestBingPic = "http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
@@ -49,20 +50,19 @@ public class AutoUpdateService extends Service {
             public void onResponse(Call call, Response response) throws IOException {
                 String bingPic = response.body().string();
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
-                editor.putString("bing_pic",bingPic);
+                editor.putString("bing_pic", bingPic);
                 editor.apply();
             }
         });
     }
 
     /**
- * update weather infomation
- * */
+     * update weather infomation
+     */
     private void updateWeather() {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherSting = prefs.getString("weather", null);
-        if(weatherSting != null)
-        {
+        if (weatherSting != null) {
             //There is a direct analysis of weather data when cached is existed
             Weather weather = Utility.handleWeatherResponse(weatherSting);
             String weatherId = weather.basic.weatherId;
@@ -78,10 +78,9 @@ public class AutoUpdateService extends Service {
                 public void onResponse(Call call, Response response) throws IOException {
                     String responseText = response.body().string();
                     Weather weather = Utility.handleWeatherResponse(responseText);
-                    if(weather != null && "ok".equals(weather.status))
-                    {
+                    if (weather != null && "ok".equals(weather.status)) {
                         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
-                        editor.putString("weather",responseText);
+                        editor.putString("weather", responseText);
                         editor.apply();
                     }
                 }
