@@ -1,6 +1,5 @@
 package com.example.dell.coolweather.Fragment;
 
-import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
