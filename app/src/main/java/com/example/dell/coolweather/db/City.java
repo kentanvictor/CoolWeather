@@ -8,8 +8,11 @@ import org.litepal.crud.DataSupport;
 //cityName記錄城市的名字.cityCode記錄城市的代號.provinceId記錄當前城市所屬省份的id
 public class City extends DataSupport {
     private int id;
+
     private String cityName;
+
     private int cityCode;
+
     private int provinceId;
 
     public int getId() {

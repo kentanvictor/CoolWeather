@@ -22,11 +22,16 @@ import okhttp3.Response;
 public class AutoUpdateService extends Service {
 
     @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+    @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         updateWeather();
         updateBingPic();
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int anHour = 8 * 60 * 60 * 1000;//This is the number of milliseconds in 8 hours
+        int anHour = 8 * 60 * 60 * 1000; // 这是8小时的毫秒数
         long triggerAtTime = SystemClock.elapsedRealtime() + anHour;
         Intent i = new Intent(this, AutoUpdateService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
@@ -36,44 +41,17 @@ public class AutoUpdateService extends Service {
     }
 
     /**
-     * update bing daily picture
+     * 更新天气信息。
      */
-    private void updateBingPic() {
-        String requestBingPic = "http://guolin.tech/api/bing_pic";
-        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String bingPic = response.body().string();
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
-                editor.putString("bing_pic", bingPic);
-                editor.apply();
-            }
-        });
-    }
-
-    /**
-     * update weather infomation
-     */
-    private void updateWeather() {
+    private void updateWeather(){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        String weatherSting = prefs.getString("weather", null);
-        if (weatherSting != null) {
-            //There is a direct analysis of weather data when cached is existed
-            Weather weather = Utility.handleWeatherResponse(weatherSting);
+        String weatherString = prefs.getString("weather", null);
+        if (weatherString != null) {
+            // 有缓存时直接解析天气数据
+            Weather weather = Utility.handleWeatherResponse(weatherString);
             String weatherId = weather.basic.weatherId;
-
             String weatherUrl = "http://guolin.tech/api/weather?cityid=" + weatherId + "&key=08518170d39041e99a3067a48e6164eb";
             HttpUtil.sendOkHttpRequest(weatherUrl, new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    e.printStackTrace();
-                }
-
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
                     String responseText = response.body().string();
@@ -84,12 +62,34 @@ public class AutoUpdateService extends Service {
                         editor.apply();
                     }
                 }
+
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                }
             });
         }
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    /**
+     * 更新必应每日一图
+     */
+    private void updateBingPic() {
+        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String bingPic = response.body().string();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
+                editor.putString("bing_pic", bingPic);
+                editor.apply();
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
+
 }
