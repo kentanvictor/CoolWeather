@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,7 @@ public class ChooseAreaFragment extends Fragment {
     private int currentLevel;
 
 
-    @TargetApi(Build.VERSION_CODES.M)//????
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,7 +101,6 @@ public class ChooseAreaFragment extends Fragment {
         backButton = (Button) view.findViewById(R.id.back_button);
         listView = (ListView) view.findViewById(R.id.list_view);
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dataList);
-        //The method getContext() need TargetApi.What is that?
         listView.setAdapter(adapter);
         return view;
     }
@@ -250,7 +250,6 @@ public class ChooseAreaFragment extends Fragment {
             public void onFailure(Call call, IOException e) {
                 // 通过runOnUiThread()方法回到主线程处理逻辑
                 getActivity().runOnUiThread(new Runnable() {
-                    @TargetApi(Build.VERSION_CODES.M)
                     @Override
                     public void run() {
                         closeProgressDialog();
